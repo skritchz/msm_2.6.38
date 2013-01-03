@@ -1,4 +1,5 @@
 /* Copyright (c) 2008-2009, Code Aurora Forum. All rights reserved.
+ * Copyright (C) 2010 Sony Ericsson Mobile Communications AB.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are
@@ -191,6 +192,19 @@ int mddi_host_register_write
     (uint32 reg_addr, uint32 reg_val,
      enum mddi_data_packet_size_type packet_size,
      boolean wait, mddi_llist_done_cb_type done_cb, mddi_host_type host);
+int mddi_host_register_write_xl
+    (uint32 reg_addr,
+     uint32 *reg_val_ext,
+     uint32 reg_nbrs,
+     boolean wait, mddi_llist_done_cb_type done_cb, mddi_host_type host);
+int mddi_host_register_write16
+	(uint32 reg_addr,
+	 uint32 reg_val0,
+	 uint32 reg_val1,
+	 uint32 reg_val2,
+	 uint32 reg_val3,
+	 uint32 reg_nbrs,
+	 boolean wait, mddi_llist_done_cb_type done_cb, mddi_host_type host);
 boolean mddi_host_register_write_int
     (uint32 reg_addr,
      uint32 reg_val, mddi_llist_done_cb_type done_cb, mddi_host_type host);
@@ -202,6 +216,10 @@ void mddi_queue_register_write_static
 void mddi_queue_static_window_adjust
     (const mddi_reg_write_type *reg_write,
      uint16 num_writes, mddi_llist_done_cb_type done_cb);
+
+boolean mddi_video_stream_black_display(uint32 x0, uint32 y0,
+			uint32 width, uint32 height, mddi_host_type host);
+
 
 #ifdef ENABLE_MDDI_MULTI_READ_WRITE
 int mddi_host_register_multiwrite(uint32 reg_addr,

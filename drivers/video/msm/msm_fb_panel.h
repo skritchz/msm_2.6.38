@@ -31,6 +31,7 @@
 #define MSM_FB_PANEL_H
 
 #include "msm_fb_def.h"
+#include <mach/board.h>
 
 struct msm_fb_data_type;
 
@@ -166,6 +167,10 @@ struct msm_panel_info {
 	__u32 frame_count;
 	__u32 is_3d_panel;
 
+	/* physical size in mm */
+	__u32 width;
+	__u32 height;
+
 
 	struct mddi_panel_info mddi;
 	struct lcd_panel_info lcd;
@@ -183,6 +188,7 @@ struct msm_panel_info {
 
 struct msm_fb_panel_data {
 	struct msm_panel_info panel_info;
+	struct panel_data_ext *panel_ext;
 	void (*set_rect) (int x, int y, int xres, int yres);
 	void (*set_vsync_notifier) (msm_fb_vsync_handler_type, void *arg);
 	void (*set_backlight) (struct msm_fb_data_type *);

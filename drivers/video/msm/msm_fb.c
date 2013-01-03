@@ -698,7 +698,9 @@ static int msm_fb_blank_sub(int blank_mode, struct fb_info *info,
 	switch (blank_mode) {
 	case FB_BLANK_UNBLANK:
 		if (!mfd->panel_power_on) {
+#if !defined(CONFIG_FB_MSM_MDDI_TMD_NT35580)
 			msleep(16);
+#endif
 			ret = pdata->on(mfd->pdev);
 			if (ret == 0) {
 				mfd->panel_power_on = TRUE;
@@ -728,8 +730,9 @@ static int msm_fb_blank_sub(int blank_mode, struct fb_info *info,
 			mfd->op_enable = FALSE;
 			curr_pwr_state = mfd->panel_power_on;
 			mfd->panel_power_on = FALSE;
-
+#if !defined(CONFIG_FB_MSM_MDDI_TMD_NT35580)
 			msleep(16);
+#endif
 			ret = pdata->off(mfd->pdev);
 			if (ret)
 				mfd->panel_power_on = curr_pwr_state;
@@ -936,9 +939,20 @@ static int msm_fb_register(struct msm_fb_data_type *mfd)
 	var->yoffset = 0,	/* resolution */
 	var->grayscale = 0,	/* No graylevels */
 	var->nonstd = 0,	/* standard pixel format */
-	var->activate = FB_ACTIVATE_VBL,	/* activate it at vsync */
-	var->height = -1,	/* height of picture in mm */
-	var->width = -1,	/* width of picture in mm */
+	var->activate = FB_ACTIVATE_VBL;	/* activate it at vsync */
+
+	/* height of picture in mm */
+	if (panel_info->height == 0)
+		var->height = -1;
+	else
+		var->height = panel_info->height;
+
+	/* width of picture in mm */
+	if (panel_info->width == 0)
+		var->width = -1;
+	else
+		var->width = panel_info->width;
+
 	var->accel_flags = 0,	/* acceleration flags */
 	var->sync = 0,	/* see FB_SYNC_* */
 	var->rotate = 0,	/* angle we rotate counter clockwise */
@@ -1191,7 +1205,22 @@ static int msm_fb_register(struct msm_fb_data_type *mfd)
 	     mfd->index, fbi->var.xres, fbi->var.yres, fbi->fix.smem_len);
 
 #ifdef CONFIG_FB_MSM_LOGO
-	if (!load_565rle_image(INIT_IMAGE_FILE)) ;	/* Flip buffer */
+	ret = load_565rle_image(INIT_IMAGE_FILE);	/* Flip buffer */
+#if defined(CONFIG_FB_MSM_MDDI_TMD_NT35580)
+	if (!ret) {
+		struct fb_var_screeninfo var;
+		int ret;
+
+		var = fbi->var;
+		var.reserved[0] = 0x54445055;
+		var.reserved[1] = 0;
+		var.reserved[2] = (mfd->panel_info.yres << 16) | (mfd->panel_info.xres);
+		msm_fb_open(fbi, 0);
+		ret = msm_fb_pan_display(&var, fbi);
+		if(ret)
+			MSM_FB_INFO("msm_fb_pan_display ret=%d\n", ret);
+	}
+#endif
 #endif
 	ret = 0;
 
@@ -2797,11 +2826,12 @@ static int msm_fb_ioctl(struct fb_info *info, unsigned int cmd,
 		}
 
 		down(&msm_fb_ioctl_ppp_sem);
+#if !defined(CONFIG_FB_MSM_MDDI_TMD_NT35580)
 		if (ccs_matrix.direction == MDP_CCS_RGB2YUV)
 			mdp_ccs_rgb2yuv = ccs_matrix;
 		else
 			mdp_ccs_yuv2rgb = ccs_matrix;
-
+#endif
 		msmfb_set_color_conv(&ccs_matrix) ;
 		up(&msm_fb_ioctl_ppp_sem);
 #else

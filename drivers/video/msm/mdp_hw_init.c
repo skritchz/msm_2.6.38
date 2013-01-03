@@ -20,6 +20,17 @@ uint32 mdp_plv[] = { 0x10, 0xeb, 0x10, 0xf0 };
 struct mdp_ccs mdp_ccs_yuv2rgb = {
 	MDP_CCS_YUV2RGB,
 	{
+#if defined(CONFIG_FB_MSM_MDDI_TMD_NT35580)
+		0x200,
+		0x000,
+		0x2cd,
+		0x200,
+		0xff50,
+		0xfe93,
+		0x200,
+		0x386,
+		0x000,
+#else
 		0x254,
 		0x000,
 		0x331,
@@ -29,10 +40,15 @@ struct mdp_ccs mdp_ccs_yuv2rgb = {
 		0x254,
 		0x409,
 		0x000,
+#endif
 	},
 	{
 #ifdef CONFIG_FB_MSM_MDP31
+#if defined(CONFIG_FB_MSM_MDDI_TMD_NT35580)
+		0x000,
+#else
 		0x1f0,
+#endif
 		0x180,
 		0x180
 #else

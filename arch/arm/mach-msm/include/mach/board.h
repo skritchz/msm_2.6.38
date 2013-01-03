@@ -218,6 +218,15 @@ struct msm_camera_sensor_info {
 
 int __init msm_get_cam_resources(struct msm_camera_sensor_info *);
 
+struct panel_data_ext {
+	void (*power_on) (void);
+	void (*power_off) (void);
+	void (*window_adjust) (u16 x1, u16 x2, u16 y1, u16 y2);
+	void (*exit_deep_standby) (void);
+	int use_dma_edge_pixels_fix;
+	void (*backlight_ctrl) (bool);
+};
+
 struct clk;
 
 struct snd_endpoint {
