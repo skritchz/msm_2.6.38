@@ -108,7 +108,7 @@ static void Proximity_setlock(int lock)
 }
 
 /* ioctl command for PROXIMITY */
-static int Proximity_ioctl(struct inode *inode, struct file *file, unsigned int cmd, unsigned long arg)
+long Proximity_ioctl(struct file *file, unsigned int cmd, unsigned long arg)
 {
 	int err = 0;
 	unsigned int data = 0;
@@ -299,7 +299,7 @@ static const struct file_operations Proximity_fops = {
 	.release = Proximity_close,
 	.read = Proximity_read,
 	.write = Proximity_write,
-	.ioctl = Proximity_ioctl,
+	.unlocked_ioctl = Proximity_ioctl,
 };
 
 static struct miscdevice Proximity_device = {

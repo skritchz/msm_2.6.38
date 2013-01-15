@@ -341,14 +341,6 @@ void led_blink_set(struct led_classdev *led_cdev,
 }
 EXPORT_SYMBOL(led_blink_set);
 
-void led_brightness_set(struct led_classdev *led_cdev,
-			enum led_brightness brightness)
-{
-	led_stop_software_blink(led_cdev);
-	led_cdev->brightness_set(led_cdev, brightness);
-}
-EXPORT_SYMBOL(led_brightness_set);
-
 static int __init leds_init(void)
 {
 	leds_class = class_create(THIS_MODULE, "leds");

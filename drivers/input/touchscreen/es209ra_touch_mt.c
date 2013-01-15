@@ -1336,6 +1336,7 @@ static int es209ra_touch_write(struct file *file, const char __user *buf,
 	return err;
 }
 
+#if 0
 static ssize_t es209ra_touch_ioctl(struct inode *inode, struct file *file,
 					unsigned int cmd, unsigned long arg)
 {
@@ -1395,11 +1396,13 @@ done:
 	return err;
 }
 
+#endif
 static const struct file_operations es209ra_touch_fops = {
 	.owner   = THIS_MODULE,
 	.write   = es209ra_touch_write,
 	.open	= es209ra_touch_open,
-	.ioctl   = es209ra_touch_ioctl,
+	// Not mandatory
+	//.ioctl   = es209ra_touch_ioctl,
 	.release = es209ra_touch_release,
 };
 

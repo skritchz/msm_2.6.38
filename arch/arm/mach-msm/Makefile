@@ -286,4 +286,4 @@ endif
 obj-$(CONFIG_ES209RA_HEADSET) += es209ra_headset.o
 
 obj-$(CONFIG_MAX17040_FUELGAUGE) += semc_max17040_settings.o
-
+obj-$(CONFIG_MACH_ES209RA) += board-es209ra.o board-es209ra-keypad.o msm_vibrator.o

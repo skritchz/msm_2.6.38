@@ -208,4 +208,5 @@ extern spinlock_t smem_lock;
 
 void smd_diag(void);
 
+
 #endif

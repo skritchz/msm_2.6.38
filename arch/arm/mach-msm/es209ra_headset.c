@@ -33,6 +33,7 @@
 #include <asm/atomic.h>
 #include <mach/gpio.h>
 #include <linux/wakelock.h>
+#include <linux/slab.h>
 
 #include "proc_comm.h"
 #include "es209ra_headset.h"

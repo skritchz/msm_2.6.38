@@ -1343,7 +1343,8 @@ static const struct file_operations es209ra_touch_fops = {
 	.owner   = THIS_MODULE,
 	.write   = es209ra_touch_write,
 	.open	= es209ra_touch_open,
-	.ioctl   = es209ra_touch_ioctl,
+	// Not mandatory
+	//.ioctl   = es209ra_touch_ioctl,
 	.release = es209ra_touch_release,
 };
 

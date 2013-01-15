@@ -567,7 +567,7 @@ static int lv5219lg_ls_release(struct inode *inode, struct file *file)
 	return 0;
 }
 
-static int lv5219lg_ls_ioctl(struct inode *inode, struct file *file,
+static long lv5219lg_ls_ioctl(struct file *file,
 			 unsigned int cmd, unsigned long arg)
 {
 	int err = 0;
@@ -1007,7 +1007,7 @@ static struct file_operations lv5219lg_ls_fops = {
 		.open = lv5219lg_ls_open,
 		.release = lv5219lg_ls_release,
 		.read = lv5219lg_ls_read,
-		.ioctl = lv5219lg_ls_ioctl,
+		.unlocked_ioctl = lv5219lg_ls_ioctl,
 };
 
 static struct miscdevice lv5219lg_ls_device = {
@@ -1026,7 +1026,7 @@ static int lv5219lg_resume(struct i2c_client *client)
 	return 0;
 }
 
-static long lv5219lg_panic_blink(long time)
+static long lv5219lg_panic_blink(int time)
 {
 #define PANIC_BRIGHTNESS ((LED_HALF / 8) - 1)
 	static bool initialized = false;
@@ -1332,6 +1332,6 @@ static void __exit lv5219lg_exit(void)
 module_init(lv5219lg_init);
 module_exit(lv5219lg_exit);
 
-MODULE_AUTHOR("SEMC")
+MODULE_AUTHOR("SEMC");
 MODULE_DESCRIPTION("LV5219LG LED IC driver");
 MODULE_LICENSE("GPL");

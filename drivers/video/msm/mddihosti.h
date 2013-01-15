@@ -403,21 +403,6 @@ typedef struct GCC_PACKED {
 
 } mddi_register_access_packet_type;
 
-typedef union GCC_PACKED {
-	mddi_video_stream_packet_type video_pkt;
-	mddi_register_access_packet_type register_pkt;
-	mddi_register_access_packet_xl_type register_xl_pkt;
-
-#ifdef ENABLE_MDDI_MULTI_READ_WRITE
-	/* add 1008 byte pad to ensure 1024 byte llist struct, that can be
-	 * manipulated easily with cache */
-	uint32 alignment_pad[252];	/* 1008 bytes */
-#else
-	/* add 48 byte pad to ensure 64 byte llist struct, that can be
-	 * manipulated easily with cache */
-	uint32 alignment_pad[12];	/* 48 bytes */
-#endif
-} mddi_packet_header_type;
 
 typedef struct GCC_PACKED {
 	uint16 packet_length;
@@ -450,6 +435,24 @@ typedef struct GCC_PACKED {
 	uint32 register_data_list_ext[MDDI_ACCESS_PKT_REG_DATA_EXT];
 	/* SEMC Added register data values */
 } mddi_register_access_packet_xl_type;
+
+typedef union GCC_PACKED {
+	mddi_video_stream_packet_type video_pkt;
+	mddi_register_access_packet_type register_pkt;
+	mddi_register_access_packet_xl_type register_xl_pkt;
+
+#ifdef ENABLE_MDDI_MULTI_READ_WRITE
+	/* add 1008 byte pad to ensure 1024 byte llist struct, that can be
+	 * manipulated easily with cache */
+	uint32 alignment_pad[252];	/* 1008 bytes */
+#else
+	/* add 48 byte pad to ensure 64 byte llist struct, that can be
+	 * manipulated easily with cache */
+	uint32 alignment_pad[12];	/* 48 bytes */
+#endif
+} mddi_packet_header_type;
+
+
 
 
 typedef struct GCC_PACKED mddi_host_llist_struct {
