@@ -28,6 +28,11 @@
 #include <mach/board.h>
 #include <mach/rpc_server_handset.h>
 
+#ifdef CONFIG_ES209RA_HEADSET
+#include "es209ra_headset.h"
+#endif
+
+
 #define DRIVER_NAME	"msm-handset"
 
 #define HS_SERVER_PROG 0x30000062
@@ -49,6 +54,9 @@
 #define HS_END_K		0x51	/* End key or Power key */
 #define HS_STEREO_HEADSET_K	0x82
 #define HS_HEADSET_SWITCH_K	0x84
+#ifdef CONFIG_ES209RA_HEADSET
+#define HS_HEADSET_SWITCH_OFF_K 0x85
+#endif
 #define HS_HEADSET_SWITCH_2_K	0xF0
 #define HS_HEADSET_SWITCH_3_K	0xF1
 #define HS_HEADSET_HEADPHONE_K	0xF6
@@ -192,6 +200,9 @@ static const uint32_t hs_key_map[] = {
 	KEY(HS_HEADSET_SWITCH_K, KEY_MEDIA),
 	KEY(HS_HEADSET_SWITCH_2_K, KEY_VOLUMEUP),
 	KEY(HS_HEADSET_SWITCH_3_K, KEY_VOLUMEDOWN),
+#ifdef CONFIG_ES209RA_HEADSET
+    KEY(HS_HEADSET_SWITCH_OFF_K, KEY_MEDIA),
+#endif//CONFIG_ES209RA_HEADSET
 	0
 };
 
@@ -281,9 +292,12 @@ static void report_hs_key(uint32_t key_code, uint32_t key_parm)
 		key_code = key_parm;
 
 	switch (key) {
+	case KEY_MEDIA:
+#ifdef CONFIG_ES209RA_HEADSET
+    es209ra_audio_jack_button_handler(key_code);
+#endif
 	case KEY_POWER:
 	case KEY_END:
-	case KEY_MEDIA:
 	case KEY_VOLUMEUP:
 	case KEY_VOLUMEDOWN:
 		input_report_key(hs->ipdev, key, (key_code != HS_REL_K));
@@ -608,8 +622,11 @@ static int __devinit hs_probe(struct platform_device *pdev)
 	hs = kzalloc(sizeof(struct msm_handset), GFP_KERNEL);
 	if (!hs)
 		return -ENOMEM;
-
+#ifdef CONFIG_ES209RA_HEADSET
+    hs->sdev.name = "dummy";
+#else
 	hs->sdev.name	= "h2w";
+#endif
 	hs->sdev.print_name = msm_headset_print_name;
 
 	rc = switch_dev_register(&hs->sdev);

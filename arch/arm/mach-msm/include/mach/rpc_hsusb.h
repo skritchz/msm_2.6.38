@@ -95,5 +95,14 @@ static inline int msm_fsusb_set_remote_wakeup(void) { return 0; }
 static inline void msm_fsusb_rpc_deinit(void) { }
 static inline int
 usb_diag_update_pid_and_serial_num(uint32_t pid, const char *snum) { return 0; }
+
+#if defined(CONFIG_MACH_ES209RA)
+int msm_hsusb_chg_is_charging(void);
+int msm_chg_battery_thermo(void);
+int msm_chg_charger_current(void);
+int msm_chg_qsd_thermo(void);
+int msm_chg_charger_thermo(void);
+#endif /* CONFIG_MACH_ES209RA */
+
 #endif
 #endif

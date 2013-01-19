@@ -715,7 +715,7 @@ static int nt35580_lcd_get_nv_vsync(void)
 	return be32_to_cpu(rep.data.vsync_usec);
 }
 
-static int __init mddi_nt35580_lcd_lcd_probe(struct platform_device *pdev)
+static int __devinit mddi_nt35580_lcd_lcd_probe(struct platform_device *pdev)
 {
 	struct msm_fb_panel_data *panel_data;
 	int nv_vsync = 0;
