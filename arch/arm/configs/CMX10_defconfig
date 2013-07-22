@@ -1,7 +1,7 @@
 #
 # Automatically generated make config: don't edit
 # Linux/arm 2.6.38.6 Kernel Configuration
-# Thu Jan 17 13:21:47 2013
+# Mon Jul 22 23:09:53 2013
 #
 CONFIG_ARM=y
 CONFIG_SYS_SUPPORTS_APM_EMULATION=y
@@ -293,8 +293,9 @@ CONFIG_MSM_AMSS_VERSION=6225
 # CONFIG_MSM_AMSS_VERSION_6210 is not set
 # CONFIG_MSM_AMSS_VERSION_6220 is not set
 CONFIG_MSM_AMSS_VERSION_6225=y
-CONFIG_MSM_DEBUG_UART_NONE=y
-# CONFIG_MSM_DEBUG_UART1 is not set
+CONFIG_MSM_DEBUG_UART=1
+# CONFIG_MSM_DEBUG_UART_NONE is not set
+CONFIG_MSM_DEBUG_UART1=y
 # CONFIG_MSM_DEBUG_UART2 is not set
 # CONFIG_MSM_DEBUG_UART3 is not set
 # CONFIG_MSM7X00A_USE_GP_TIMER is not set
@@ -487,7 +488,7 @@ CONFIG_ALIGNMENT_TRAP=y
 #
 CONFIG_ZBOOT_ROM_TEXT=0x0
 CONFIG_ZBOOT_ROM_BSS=0x0
-CONFIG_CMDLINE="androidboot.hardware=es209ra vmalloc=280M g_android.product_id=0x312E console=ttyMSM0 semcandroidboot.serialno=CB511SW0YT semcandroidboot.startup=0x0000001A semcandroidboot.000008A2=583130"
+CONFIG_CMDLINE="console=ttyMSM2,115200n8 androidboot.hardware=semc earlyprintk initcall_debug androidboot.hardware=es209ra vmalloc=280M g_android.product_id=0x312E semcandroidboot.serialno=CB511SW0YT semcandroidboot.startup=0x0000001A semcandroidboot.000008A2=583130"
 # CONFIG_CMDLINE_FORCE is not set
 # CONFIG_XIP_KERNEL is not set
 # CONFIG_KEXEC is not set
@@ -1019,7 +1020,7 @@ CONFIG_MISC_DEVICES=y
 CONFIG_ANDROID_PMEM=y
 # CONFIG_ICS932S401 is not set
 # CONFIG_ENCLOSURE_SERVICES is not set
-# CONFIG_KERNEL_DEBUGGER_CORE is not set
+CONFIG_KERNEL_DEBUGGER_CORE=y
 # CONFIG_APDS9802ALS is not set
 # CONFIG_ISL29003 is not set
 # CONFIG_ISL29020 is not set
@@ -2425,7 +2426,9 @@ CONFIG_ARM_UNWIND=y
 CONFIG_DEBUG_USER=y
 CONFIG_DEBUG_ERRORS=y
 # CONFIG_DEBUG_STACK_USAGE is not set
-# CONFIG_DEBUG_LL is not set
+CONFIG_DEBUG_LL=y
+CONFIG_EARLY_PRINTK=y
+# CONFIG_DEBUG_ICEDCC is not set
 # CONFIG_OC_ETM is not set
 
 #

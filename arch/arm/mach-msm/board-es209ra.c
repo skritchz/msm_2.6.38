@@ -2347,15 +2347,11 @@ __setup_param("semcandroidboot.serialno=", board_serialno_setup_2, board_serialn
 
 MACHINE_START(ES209RA, "ES209RA")
 #ifdef CONFIG_MSM_DEBUG_UART
-	.phys_io  = MSM_DEBUG_UART_PHYS,
-	.io_pg_offst = ((MSM_DEBUG_UART_BASE) >> 18) & 0xfffc,
+	//.phys_io  = MSM_DEBUG_UART_PHYS,
+	//.io_pg_offst = ((MSM_DEBUG_UART_BASE) >> 18) & 0xfffc,
 #endif
-#ifdef CONFIG_CAPTURE_KERNEL
-	.boot_params    = PHYS_OFFSET + 0x1000,
-#else
 	.boot_params	= PHYS_OFFSET + 0x100,
 	.fixup          = es209ra_fixup,
-#endif
 	.map_io		= es209ra_map_io,
 	.init_irq	= es209ra_init_irq,
 	.init_machine	= es209ra_init,
